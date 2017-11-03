@@ -10,6 +10,7 @@ import { flowRight } from 'lodash';
  * Internal dependencies
  */
 import effects from './effects';
+import { mobileMiddleware } from './utils/mobile';
 import reducer from './reducer';
 import storePersist from './store-persist';
 
@@ -27,6 +28,7 @@ function createReduxStore() {
 	const enhancers = [
 		applyMiddleware( multi, refx( effects ) ),
 		storePersist( 'preferences', GUTENBERG_PREFERENCES_KEY ),
+		applyMiddleware( mobileMiddleware ),
 	];
 
 	if ( window.__REDUX_DEVTOOLS_EXTENSION__ ) {
