@@ -7,9 +7,13 @@ import {
 	get,
 	reduce,
 	castArray,
+	compact,
 	findIndex,
 	isObjectLike,
+	filter,
 	find,
+	first,
+	flatMap,
 	uniq,
 } from 'lodash';
 
@@ -69,39 +73,35 @@ export function createBlock( name, blockAttributes = {} ) {
  * @return {Array}         Array of possible block transformations
  */
 export function getPossibleBlockTransformations( blocks ) {
-	if ( ! blocks || ! blocks[ 0 ] ) {
+	const sourceBlock = first( blocks );
+	if ( ! blocks || ! sourceBlock ) {
 		return [];
 	}
 	const isMultiBlock = blocks.length > 1;
-	const sourceBlockName = blocks[ 0 ].name;
+	const sourceBlockName = sourceBlock.name;
 
-	if ( isMultiBlock && ! every( blocks, ( block ) => ( block.name === sourceBlockName ) ) ) {
+	if ( isMultiBlock && ! every( blocks, { name: sourceBlockName } ) ) {
 		return [];
 	}
 
-	const blockType = getBlockType( sourceBlockName );
-	const blocksToBeTransformedFrom = reduce( getBlockTypes(), ( memo, type ) => {
-		const transformFrom = get( type, 'transforms.from', [] );
-		const transformation = find(
-			transformFrom,
+	const blocksToBeTransformedFrom = filter( getBlockTypes(), type =>
+		find(
+			get( type, 'transforms.from', [] ),
 			t => t.type === 'block' && t.blocks.indexOf( sourceBlockName ) !== -1 &&
-				( ! isMultiBlock || t.isMultiBlock )
-		);
-		return transformation ? memo.concat( [ type.name ] ) : memo;
-	}, [] );
-	const blocksToBeTransformedTo = get( blockType, 'transforms.to', [] )
-		.reduce(
-			( memo, transformation ) =>
-				memo.concat( ! isMultiBlock || transformation.isMultiBlock ? transformation.blocks : [] ),
-			[]
-		);
-	const allowedBlocks = uniq( blocksToBeTransformedFrom.concat( blocksToBeTransformedTo ) )
-		.reduce( ( memo, name ) => {
-			const type = getBlockType( name );
-			return !! type ? memo.concat( type ) : memo;
-		}, [] );
+			( ! isMultiBlock || t.isMultiBlock )
+		)
+	).map( type => type.name );
 
-	return allowedBlocks;
+	const blockType = getBlockType( sourceBlockName );
+	const transformsTo = get( blockType, 'transforms.to', [] );
+	const blocksToBeTransformedTo = flatMap(
+		isMultiBlock ? filter( transformsTo, transformation => transformation.isMultiBlock ) : transformsTo,
+		transformation => transformation.blocks
+	);
+
+	return uniq( compact(
+		blocksToBeTransformedFrom.concat( blocksToBeTransformedTo ).map( name => getBlockType( name ) )
+	) );
 }
 
 /**
