@@ -161,7 +161,10 @@ registerBlockType( 'core/list', {
 				blocks: [ 'core/quote' ],
 				transform: ( { values } ) => {
 					return createBlock( 'core/quote', {
-						value: [ <p key="list">{ toBrDelimitedContent( values ) }</p> ],
+						value: values.length ? [
+							{ children: get( values[ 0 ], 'props.children' ) },
+						] : undefined,
+						citation: get( values, [ '1', 'props', 'children' ] ),
 					} );
 				},
 			},
