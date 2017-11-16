@@ -14,7 +14,7 @@ import { Slot } from '@wordpress/components';
  */
 import './style.scss';
 import BlockInspectorAdvancedControls from './advanced-controls';
-import { getSelectedBlock, getSelectedBlockCount } from '../../selectors';
+import { getSelectedBlock, getSelectedBlockCount } from '../../state/selectors';
 
 const BlockInspector = ( { selectedBlock, count } ) => {
 	if ( count > 1 ) {

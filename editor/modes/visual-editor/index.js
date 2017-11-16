@@ -18,8 +18,8 @@ import VisualEditorBlockList from './block-list';
 import VisualEditorInserter from './inserter';
 import PostTitle from '../../post-title';
 import WritingFlow from '../../writing-flow';
-import { getBlockUids, getMultiSelectedBlockUids } from '../../selectors';
-import { clearSelectedBlock, multiSelect, redo, undo, removeBlocks } from '../../actions';
+import { getBlockUids, getMultiSelectedBlockUids } from '../../state/selectors';
+import { clearSelectedBlock, multiSelect, redo, undo, removeBlocks } from '../../state/actions';
 
 class VisualEditor extends Component {
 	constructor() {

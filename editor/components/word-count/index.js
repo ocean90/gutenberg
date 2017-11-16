@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 /**
  * WordPress dependencies
  */
-import { getBlocks } from '../../selectors';
+import { getBlocks } from '../../state/selectors';
 import { serialize } from 'blocks';
 
 function WordCount( { content } ) {

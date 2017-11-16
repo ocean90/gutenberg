@@ -14,8 +14,8 @@ import { PanelBody } from '@wordpress/components';
 /**
  * Internal Dependencies
  */
-import { updateBlockAttributes } from '../../actions';
-import { getSelectedBlock, getCurrentPost } from '../../selectors';
+import { updateBlockAttributes } from '../../state/actions';
+import { getSelectedBlock, getCurrentPost } from '../../state/selectors';
 
 class BlockInspectorAdvancedControls extends Component {
 	constructor() {

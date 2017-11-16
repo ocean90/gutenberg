@@ -1,4 +1,7 @@
-import { viewPort } from '../utils';
+/**
+ * WordPress dependencies
+ */
+import { viewPort } from '@wordpress/utils';
 
 export const STORE_DEFAULTS = {
 	preferences: {
