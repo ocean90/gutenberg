@@ -15,7 +15,7 @@ import reducer, {
 	getCurrentPostType,
 	isCurrentPostPublished,
 	getCurrentPostPreviewLink,
-} from '../curent-post';
+} from '../current-post';
 
 describe( 'currentPost', () => {
 	describe( 'reducer', () => {
