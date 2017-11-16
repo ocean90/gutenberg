@@ -178,7 +178,7 @@ describe( 'validation', () => {
 				expect( isEqual ).toBe( true );
 			} );
 
-			it( 'returns true if not same style', () => {
+			it( 'returns false if not same style', () => {
 				const isEqual = isEqualAttributesOfName.style(
 					'background-image: url( "https://wordpress.org/img.png" ); color: red;',
 					'color: red;  font-size: 13px; background-image: url(\'https://wordpress.org/img.png\');'
@@ -392,7 +392,7 @@ describe( 'validation', () => {
 	} );
 
 	describe( 'isValidBlock()', () => {
-		it( 'returns false is block is not valid', () => {
+		it( 'returns false if block is not valid', () => {
 			registerBlockType( 'core/test-block', defaultBlockSettings );
 
 			expect( isValidBlock(
@@ -402,7 +402,7 @@ describe( 'validation', () => {
 			) ).toBe( false );
 		} );
 
-		it( 'returns false is error occurs while generating block save', () => {
+		it( 'returns false if error occurs while generating block save', () => {
 			registerBlockType( 'core/test-block', {
 				...defaultBlockSettings,
 				save() {
